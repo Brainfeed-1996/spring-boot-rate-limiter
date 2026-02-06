@@ -1,4 +1,4 @@
-package com.cortana.security.ratelimiter;
+package com..security.ratelimiter;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
