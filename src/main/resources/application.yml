@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-boot-rate-limiter
+  redis:
+    host: localhost
+    port: 6379
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+rate-limiter:
+  enabled: true
+  redis-key-prefix: rl
+  default-policy:
+    strategy: IP
+    limit:
+      capacity: 60
+      period: 1m
+  routes:
+    - id: hello-ip
+      path: /api/hello
+      methods: [GET]
+      strategy: IP
+      limit:
+        capacity: 5
+        period: 10s
