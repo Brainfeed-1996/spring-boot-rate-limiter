@@ -1,8 +1,7 @@
 package com.security.ratelimit;
 
-import com.bucket4j.redis.lettuce.Bucket4jLettuce;
-import com.bucket4j.redis.lettuce.cas.LettuceBasedProxyManager;
 import io.github.bucket4j.distributed.proxy.ProxyManager;
+import io.github.bucket4j.redis.lettuce.cas.LettuceBasedProxyManager;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -44,9 +43,7 @@ public class RateLimiterAutoConfiguration {
 
     @Bean(destroyMethod = "close")
     @ConditionalOnMissingBean
-    public ProxyManager<String> bucket4jProxyManager(RedisClient redisClient) {
-        return LettuceBasedProxyManager.builderFor(redisClient)
-                .withKeyMapper(Bucket4jLettuce::toByteArray)
-                .build();
+    public ProxyManager<byte[]> bucket4jProxyManager(RedisClient redisClient) {
+        return LettuceBasedProxyManager.builderFor(redisClient).build();
     }
 }

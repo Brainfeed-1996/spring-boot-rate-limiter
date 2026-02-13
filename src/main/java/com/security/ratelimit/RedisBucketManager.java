@@ -11,10 +11,10 @@ import java.time.Duration;
 @Component
 public class RedisBucketManager {
 
-    private final ProxyManager<String> proxyManager;
+    private final ProxyManager<byte[]> proxyManager;
     private final RateLimiterProperties properties;
 
-    public RedisBucketManager(ProxyManager<String> proxyManager, RateLimiterProperties properties) {
+    public RedisBucketManager(ProxyManager<byte[]> proxyManager, RateLimiterProperties properties) {
         this.proxyManager = proxyManager;
         this.properties = properties;
     }
@@ -25,7 +25,8 @@ public class RedisBucketManager {
                 .addLimit(bandwidth(limit))
                 .build();
 
-        Bucket bucket = proxyManager.builder().build(redisKey, configuration);
+        byte[] keyBytes = redisKey.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        Bucket bucket = proxyManager.builder().build(keyBytes, configuration);
         return bucket.tryConsumeAndReturnRemaining(1);
     }
 
