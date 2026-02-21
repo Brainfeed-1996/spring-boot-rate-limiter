@@ -24,5 +24,5 @@ jobs:
       - name: Make mvnw executable
         run: chmod +x mvnw
 
-      - name: Run tests
-        run: ./mvnw -B test
+      - name: Run quality gates
+        run: ./mvnw -B clean verify
